@@ -61,7 +61,7 @@ public actor ScribeDatabase {
     /// Inserts transcript segments into the database.
     public func insert(_ segments: [TranscriptSegment], source: String) async throws {
         let now = ISO8601DateFormatter().string(from: Date())
-        try dbQueue.write { db in
+        try await dbQueue.write { db in
             for segment in segments {
                 try db.execute(
                     sql: """
@@ -76,7 +76,7 @@ public actor ScribeDatabase {
 
     /// Performs a full-text search and returns matching results.
     public func search(_ query: String) async throws -> [SearchResult] {
-        try dbQueue.read { db in
+        try await dbQueue.read { db in
             let rows = try Row.fetchAll(db, sql: """
                 SELECT t.source, t.start_time, snippet(transcripts_fts, 0, '**', '**', '…', 32) AS snippet
                 FROM transcripts_fts
@@ -97,7 +97,7 @@ public actor ScribeDatabase {
 
     /// Returns all distinct source file names.
     public func allSources() async throws -> [String] {
-        try dbQueue.read { db in
+        try await dbQueue.read { db in
             try String.fetchAll(db, sql: "SELECT DISTINCT source FROM transcripts ORDER BY source")
         }
     }

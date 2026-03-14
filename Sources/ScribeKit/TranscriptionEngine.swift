@@ -39,16 +39,14 @@ public actor TranscriptionEngine {
 
                     // Convert WhisperKit segments into our TranscriptSegment type
                     var rawSegments: [TranscriptSegment] = []
-                    if let segments = result.segments {
-                        for seg in segments {
-                            let segment = TranscriptSegment(
-                                text: seg.text.trimmingCharacters(in: .whitespacesAndNewlines),
-                                startTime: TimeInterval(seg.start),
-                                endTime: TimeInterval(seg.end),
-                                confidence: seg.avgLogprob
-                            )
-                            rawSegments.append(segment)
-                        }
+                    for seg in result.segments {
+                        let segment = TranscriptSegment(
+                            text: seg.text.trimmingCharacters(in: .whitespacesAndNewlines),
+                            startTime: TimeInterval(seg.start),
+                            endTime: TimeInterval(seg.end),
+                            confidence: seg.avgLogprob
+                        )
+                        rawSegments.append(segment)
                     }
 
                     // Batch segments into ~5-second chunks using AsyncAlgorithms

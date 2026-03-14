@@ -1,7 +1,7 @@
 import Foundation
 
 /// Main API entry point that orchestrates transcription, storage, and rendering.
-public class Scribe: Sendable {
+public final class Scribe: Sendable {
     private let engine: TranscriptionEngine
     private let database: ScribeDatabase
     private let renderer: MarkdownRenderer
