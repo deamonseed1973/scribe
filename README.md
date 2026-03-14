@@ -1,4 +1,4 @@
-# Scribe
+# Scribe 🎙️
 
 On-device audio transcription with full-text search and Markdown output — built as a Swift Package chimera.
 
@@ -27,7 +27,7 @@ Additional dependency: [swift-argument-parser](https://github.com/apple/swift-ar
 ## Installation
 
 ```bash
-git clone https://github.com/your-org/scribe.git
+git clone https://github.com/deamonseed1973/scribe.git
 cd scribe
 swift build -c release
 # Binary is at .build/release/scribe
@@ -84,6 +84,15 @@ scribe list
 # recording.m4a
 ```
 
+### Show database path
+
+```bash
+scribe db-path
+# ~/.scribe/scribe.db
+```
+
+> **Planned (v2):** Use a custom database location with `--database <path>`.
+
 ## Library Usage
 
 Scribe's core functionality is available as `ScribeKit`, a Swift library you can import into your own packages:
@@ -121,11 +130,27 @@ Sources/
 Tests/
   ScribeKitTests/
     MarkdownRendererTests.swift
+    ScribeDatabaseTests.swift
 ```
 
 ## Data Storage
 
 Transcripts are stored in `~/.scribe/scribe.db` (SQLite with FTS5). The directory is created automatically on first use.
+
+Run `scribe db-path` to print the exact path on your system.
+
+## Roadmap (v2)
+
+- [ ] `scribe db-path` command — print the path to the SQLite database
+- [ ] `--database <path>` flag — use a non-standard database location
+- [ ] Structured JSON output (`--format json`)
+- [ ] WebVTT caption export (`--format vtt`)
+- [ ] SRT caption export (`--format srt`)
+- [ ] Improved Markdown formatting (speaker detection, confidence markers)
+
+## Rating
+
+⭐⭐⭐⭐ — _"Well constructed. I can see some interesting use cases for a remote agent to transcribe audio and save it locally."_ — Richard Stelling
 
 ## License
 
