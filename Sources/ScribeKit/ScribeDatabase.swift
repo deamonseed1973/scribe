@@ -78,7 +78,10 @@ public actor ScribeDatabase {
     public func search(_ query: String) async throws -> [SearchResult] {
         try await dbQueue.read { db in
             let rows = try Row.fetchAll(db, sql: """
-                SELECT t.source, t.start_time, snippet(transcripts_fts, 0, '**', '**', '…', 32) AS snippet
+                SELECT
+                    t.source,
+                    t.start_time,
+                    COALESCE(snippet(transcripts_fts, 0, '**', '**', '…', 32), t.text) AS snippet
                 FROM transcripts_fts
                 JOIN transcripts t ON t.id = transcripts_fts.rowid
                 WHERE transcripts_fts MATCH ?
